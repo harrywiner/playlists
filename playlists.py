@@ -1,14 +1,11 @@
 import json
+from my_types import Playlist
+from typing import List
 
 from googleapiclient.discovery import Resource
 
-def readJSON(filename: str) -> dict:
-    file = open(filename)
-    return json.load(file)
-    
-
 # Cost: 50
-def createPlaylist(title: str, youtube: Resource, description="") -> str:
+def createPlaylist(title: str, description: str, youtube: Resource) -> str:
     request = youtube.playlists().insert(
         part="snippet,status",
         body={
@@ -65,7 +62,13 @@ def insertToPlaylist(resourceId: str, playlistId: str, youtube: Resource):
 Test methods
 youtube = getAuth()
 
-insertPlaylist("API Test", "A test of a mid api", youtube)
+createPlaylist("API Test", "A test of a mid api", youtube)
 searchSong("Althea - 2013 Remaster", "Grateful Dead", youtube)
 insertToPlaylist("ZZNZgtj26Fk", "PLMLL7H31r20QHBDg7nHX8sCZq3dq6mRCU", youtube)
 """
+
+# def uploadPlaylist(playlist: Playlist, youtube: Resource):
+    # playlistId = createPlaylist(playlist.name, playlist.description, youtube)
+    # for track in playlist.items:
+    #     resourceId = searchSong(track.trackName, track.artistName, youtube)
+    #     insertToPlaylist(resourceId, playlistId, youtube)
